@@ -1,0 +1,50 @@
+import 'package:fintech_vault_app/biometrics.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+
+class StartAnimation extends StatefulWidget {
+  const StartAnimation({Key? key}) : super(key: key);
+
+  @override
+  State<StartAnimation> createState() => _StartAnimationState();
+}
+
+class _StartAnimationState extends State<StartAnimation>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      duration: Duration(seconds: 4),
+      vsync: this,
+    )..forward();
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        // Navigation logic here
+        Navigator.pushReplacement(
+          context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => const Biometrics(),transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return child;
+            },));
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: SizedBox(
+          height: 100,
+          child: Lottie.network(
+            "https://lottie.host/f2c0510b-8eee-4553-8d7a-e19ec55afbc6/sHHt2OqMBq.json",
+            controller: _animationController,
+          ),
+        ),
+      ),
+    );
+  }
+}
