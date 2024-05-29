@@ -38,6 +38,8 @@ dependencies:
   local_auth: ^2.2.0
   lottie:
   dash_bubble:
+  http:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

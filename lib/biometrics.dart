@@ -1,3 +1,4 @@
+import 'package:fintech_vault_app/bankscreen.dart';
 import 'package:fintech_vault_app/vault.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -69,8 +70,8 @@ class _BiometricsState extends State<Biometrics> {
       );
       print("Authenticated:$authenticated");
       if(authenticated==true){
-        Navigator.push(context,  PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => const VaultHome(),transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        Navigator.pushReplacement(context,  PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => const /*VaultHome()*/ BankList(),transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);
           const end = Offset.zero;
           final tween = Tween(begin: begin, end: end);
