@@ -37,12 +37,18 @@ class _StartAnimationState extends State<StartAnimation>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SizedBox(
-          height: 100,
-          child: Lottie.network(
-            "https://lottie.host/f2c0510b-8eee-4553-8d7a-e19ec55afbc6/sHHt2OqMBq.json",
-            controller: _animationController,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 100,
+              child: Lottie.network(
+                "https://lottie.host/f2c0510b-8eee-4553-8d7a-e19ec55afbc6/sHHt2OqMBq.json",
+                controller: _animationController,
+              ),
+            ),
+            Text("OTP Verified!",style: TextStyle(fontSize: 20,color: Colors.white),),
+          ],
         ),
       ),
     );

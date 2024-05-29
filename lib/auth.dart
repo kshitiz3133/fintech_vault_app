@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> sendotp() async {
-    var url = Uri.parse('${BaseUrl.baseUrl}/endpoint');
+    var url = Uri.parse('${BaseUrl.baseUrl}/auth/sendotp');
     var body = json.encode({"mobileNumber": "+91${_phoneController.text}"});
 
     var response = await http.post(
@@ -113,11 +113,22 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       a = false;
     });
+    if (response.statusCode == 404) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) => const SizedBox(
+            height: 100,
+            child: Center(child: Text("OTP Sent!")),
+          ),
+        );
+      });
+    }
     print('Response body: ${response.body}');
   }
 
   Future<void> verify() async {
-    var url = Uri.parse('${BaseUrl.baseUrl}/endpoint');
+    var url = Uri.parse('${BaseUrl.baseUrl}/auth/verifyotp');
     var body = json.encode({
       "mobileNumber": "+91${_phoneController.text}",
       "otp": "${_otpController.text}"

@@ -1,4 +1,5 @@
 import 'package:fintech_vault_app/bankpin.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -76,7 +77,7 @@ class _BankListState extends State<BankList> {
                                       ),
                                       ElevatedButton(
                                           onPressed: () {},
-                                          child: Text("Set Pin"))
+                                          child: Text("Unlink"))
                                     ],
                                   ),
                                 ),
@@ -159,6 +160,7 @@ class _AnimatedNoticeState extends State<AnimatedNotice>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  bool flag=true;
 
   @override
   void initState() {
@@ -194,20 +196,74 @@ class _AnimatedNoticeState extends State<AnimatedNotice>
       },
       child: Transform.translate(
         offset: Offset(0, 25),
-        child: Container(
+        child:
+            flag?
+        Container(
           height: 525,
           width: 338,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: Color(0xffCDC6F2),
+            color: Colors.white,
           ),
-          child: Center(child: Column(
-            children: [
-              Text("Login"),
-              ElevatedButton(onPressed: (){widget.onClose();}, child: Text("Cancel"))
-            ],
+          child: Center(child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                SizedBox(height: 50,),
+                Text("Login",style: TextStyle(color: Colors.black,fontSize: 30),),
+                Container(width: 280,child: Column(children: [
+                  TextField(decoration:
+                  InputDecoration(labelText: 'Phone Number'),style: TextStyle(color: Colors.black),),
+                  TextField(decoration:
+                  InputDecoration(labelText: 'Password'),style: TextStyle(color: Colors.black),)
+                ],),),
+                SizedBox(height: 50,),
+                ElevatedButton(onPressed: (){setState(() {
+                  flag=false;
+                });print("Submit");}, child: Text("Submit")),
+                SizedBox(height: 30,),
+                GestureDetector(onTap: (){_controller.reverse();Future.delayed(Duration(milliseconds: 100),(){
+                  widget.onClose();
+                });},child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Cancel",style: TextStyle(color: Colors.black,fontSize: 20),),
+                )),
+              ],
+            ),
           )),
-        ),
+        ):
+            Container(
+              height: 525,
+              width: 338,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+              ),
+              child: Center(child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: 50,),
+                    Text("Loin",style: TextStyle(color: Colors.black,fontSize: 30),),
+                    Container(width: 280,child: Column(children: [
+                      TextField(decoration:
+                      InputDecoration(labelText: 'Phone Number'),style: TextStyle(color: Colors.black),),
+                      TextField(decoration:
+                      InputDecoration(labelText: 'Password'),style: TextStyle(color: Colors.black),)
+                    ],),),
+                    SizedBox(height: 50,),
+                    ElevatedButton(onPressed: (){print("Submit");}, child: Text("Submit")),
+                    SizedBox(height: 30,),
+                    GestureDetector(onTap: (){_controller.reverse();Future.delayed(Duration(milliseconds: 100),(){
+                      widget.onClose();
+                    });},child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Cancel",style: TextStyle(color: Colors.black,fontSize: 20),),
+                    )),
+                  ],
+                ),
+              )),
+            ),
       ),
     );
   }
