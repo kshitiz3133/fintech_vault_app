@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _otpController = TextEditingController();
 
   bool a = true;
+  bool check = false;
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +142,11 @@ class _HomePageState extends State<HomePage> {
     );
 
     print('Response status: ${response.statusCode}');
+    if (response.statusCode == 404) {
+      setState(() {
+        check=true;
+      });
+    }
     print('Response body: ${response.body}');
   }
 
@@ -166,6 +172,7 @@ class _HomePageState extends State<HomePage> {
         });
     await verify();
     Navigator.of(context).pop();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const StartAnimation()));
+    check?Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const StartAnimation())):print("error");
+
   }
 }

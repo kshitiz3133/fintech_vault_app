@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+
 import 'package:fintech_vault_app/bankpin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'Util/bankinfo.dart';
+import 'Util/baseurl.dart';
 
 class BankList extends StatefulWidget {
   const BankList({Key? key}) : super(key: key);
@@ -161,6 +166,7 @@ class _AnimatedNoticeState extends State<AnimatedNotice>
   late AnimationController _controller;
   late Animation<double> _animation;
   bool flag=true;
+  bool flaga=true;
 
   @override
   void initState() {
@@ -218,9 +224,7 @@ class _AnimatedNoticeState extends State<AnimatedNotice>
                   InputDecoration(labelText: 'Password'),style: TextStyle(color: Colors.black),)
                 ],),),
                 SizedBox(height: 50,),
-                ElevatedButton(onPressed: (){setState(() {
-                  flag=false;
-                });print("Submit");}, child: Text("Submit")),
+                ElevatedButton(onPressed: (){bankloginload();}, child: Text("Submit")),
                 SizedBox(height: 30,),
                 GestureDetector(onTap: (){_controller.reverse();Future.delayed(Duration(milliseconds: 100),(){
                   widget.onClose();
@@ -232,6 +236,7 @@ class _AnimatedNoticeState extends State<AnimatedNotice>
             ),
           )),
         ):
+                flaga?
             Container(
               height: 525,
               width: 338,
@@ -244,15 +249,15 @@ class _AnimatedNoticeState extends State<AnimatedNotice>
                 child: Column(
                   children: [
                     SizedBox(height: 50,),
-                    Text("Loin",style: TextStyle(color: Colors.black,fontSize: 30),),
-                    Container(width: 280,child: Column(children: [
-                      TextField(decoration:
-                      InputDecoration(labelText: 'Phone Number'),style: TextStyle(color: Colors.black),),
-                      TextField(decoration:
-                      InputDecoration(labelText: 'Password'),style: TextStyle(color: Colors.black),)
+                    Text("OTP",style: TextStyle(color: Colors.black,fontSize: 30),),
+                    Container(width: 150,child: Column(children: [
+                      TextField(
+                        textAlign: TextAlign.center,
+                        decoration:
+                      InputDecoration(labelText: 'Enter OTP'),style: TextStyle(color: Colors.black),),
                     ],),),
                     SizedBox(height: 50,),
-                    ElevatedButton(onPressed: (){print("Submit");}, child: Text("Submit")),
+                    ElevatedButton(onPressed: (){print("Submit");bankOTP();}, child: Text("Submit")),
                     SizedBox(height: 30,),
                     GestureDetector(onTap: (){_controller.reverse();Future.delayed(Duration(milliseconds: 100),(){
                       widget.onClose();
@@ -263,8 +268,104 @@ class _AnimatedNoticeState extends State<AnimatedNotice>
                   ],
                 ),
               )),
-            ),
+            ):Container(
+                  height: 525,
+                  width: 338,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  child: Center(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 50,),
+                        Text("Set PIN for this Bank",style: TextStyle(color: Colors.black,fontSize: 30),),
+                        Container(width: 150,child: Column(children: [
+                          TextField(
+                            textAlign: TextAlign.center,
+                            maxLength: 4,
+                            decoration:
+                            InputDecoration(labelText: 'Enter PIN'),style: TextStyle(color: Colors.black),),
+                        ],),),
+                        SizedBox(height: 50,),
+                        ElevatedButton(onPressed: (){print("Submit");}, child: Text("Submit")),
+                        SizedBox(height: 30,),
+                        GestureDetector(onTap: (){_controller.reverse();Future.delayed(Duration(milliseconds: 100),(){
+                          widget.onClose();
+                        });},child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Cancel",style: TextStyle(color: Colors.black,fontSize: 20),),
+                        )),
+                      ],
+                    ),
+                  )),
+                ),
       ),
     );
+  }
+
+  Future<void> banklogin() async {
+    var url = Uri.parse('${BaseUrl.baseUrl}/auth/verifyotp');
+    var body = json.encode({
+
+    });
+
+    var response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
+
+    print('Response status: ${response.statusCode}');
+    if (response.statusCode == 404) {
+      setState(() {
+        flag=false;
+      });
+    }
+    print('Response body: ${response.body}');
+  }
+  Future<void> bankotplogin() async {
+    var url = Uri.parse('${BaseUrl.baseUrl}/auth/verifyotp');
+    var body = json.encode({
+
+    });
+
+    var response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
+
+    print('Response status: ${response.statusCode}');
+    if (response.statusCode == 404) {
+      setState(() {
+        flaga=false;
+      });
+    }
+    print('Response body: ${response.body}');
+  }
+
+  Future<void> bankloginload() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+    await banklogin();
+    Navigator.of(context).pop();
+  }
+  Future<void> bankOTP() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+    await bankotplogin();
+    Navigator.of(context).pop();
   }
 }
