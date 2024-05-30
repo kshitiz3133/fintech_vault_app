@@ -37,11 +37,11 @@ class _BiometricsState extends State<Biometrics> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if(_supportstate)
-                const Text("Biometrics")
+                const Text("Biometrics",style: TextStyle(color: Colors.black,fontSize: 20),)
               else
-                const Text("not supported"),
+                const Text("not supported",style: TextStyle(color: Colors.black,fontSize: 20)),
               const SizedBox(height: 100,),
-              ElevatedButton(onPressed: _authenticate, child: Text("Let's Go"))
+              ElevatedButton(onPressed: _authenticate, child: Text("Tap to Scan"))
 
             ],
           ),

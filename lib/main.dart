@@ -1,5 +1,6 @@
 import 'package:fintech_vault_app/biometrics.dart';
 import 'package:fintech_vault_app/bubble.dart';
+import 'package:fintech_vault_app/enterance.dart';
 import 'package:fintech_vault_app/startanimation.dart';
 import 'package:fintech_vault_app/timercount.dart';
 import 'package:fintech_vault_app/vault.dart';
@@ -32,7 +33,9 @@ class MyApp extends StatelessWidget {
          ThemeMode.light for light theme,
          ThemeMode.dark for dark theme
       */
-      home: HomePage(),
+      //home: HomePage(),
+      //home:Socials(),
+      home:StartAnimation(),
     );
   }
 }

@@ -84,7 +84,7 @@ class _VaultHomeState extends State<VaultHome> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Vault'),
-        leading: a?IconButton(onPressed: (){Navigator.pop(context);},icon: Icon(Icons.arrow_back),):SizedBox(),
+        automaticallyImplyLeading: a?true:false,
       ),
       body: Center(
         child: Column(

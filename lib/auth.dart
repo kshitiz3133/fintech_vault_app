@@ -21,82 +21,118 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome to VAULT'),
-      ),
+      backgroundColor: Color(0xffD5D5D5),
       body: a
-          ? Padding(
-              padding: const EdgeInsets.all(20.0),
+          ? SingleChildScrollView(
+            child: Center(
+                    child: Container(
+            width: 300,
+            decoration: BoxDecoration(color: Color(0xffD5D5D5),borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(
+                  SizedBox(height: 100,),
+                  SizedBox(height: 100,child: Image.asset("asstes/vault.png")),
+                  SizedBox(height: 20,),
+                  Column(
                     children: [
-                      Text(
-                        "+91",
-                        style: TextStyle(fontSize: 20),
+                      Row(
+                        children: [
+                          Text(
+                            "+91",
+                            style: TextStyle(fontSize: 20,color: Colors.black),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          SizedBox(
+                            width: 180,
+                            child: TextField(
+                              controller: _phoneController,
+                              decoration:
+                              InputDecoration(labelText: 'Phone Number',labelStyle: TextStyle(color: Colors.black)),
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      SizedBox(
-                        width: 300,
-                        child: TextField(
-                          controller: _phoneController,
-                          decoration:
-                              InputDecoration(labelText: 'Phone Number'),
-                        ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            enterNumber();
+                          });
+                        },
+                        child: Text('Login',style: TextStyle(color: Colors.white),),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        enterNumber();
-                      });
-                    },
-                    child: Text('Login'),
-                  ),
-                ],
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            setState(() {
-                              a = true;
-                            });
-                          },
-                          icon: Icon(Icons.arrow_back)),
-                      SizedBox(
-                        width: 280,
-                        child: TextField(
-                          controller: _otpController,
-                          decoration: InputDecoration(labelText: 'Enter OTP'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        enterOtp();
-                      },
-                      child: Text('Verify'),
-                    ),
-                  ),
+                  SizedBox(height: 100,),
+                  SizedBox(height: 100,),
                 ],
               ),
             ),
+                    ),
+                  ),
+          )
+          : SingleChildScrollView(
+            child: Center(
+                    child: Container(
+            width: 300,
+            decoration: BoxDecoration(color: Color(0xffD5D5D5),borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 100,),
+                  SizedBox(height: 100,child: Image.asset("asstes/vault.png")),
+                  SizedBox(height: 20,),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  a = true;
+                                });
+                              },
+                              icon: Icon(Icons.arrow_back,color: Colors.black,)),
+                          SizedBox(
+                            width: 180,
+                            child: TextField(
+                              controller: _otpController,
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(labelText: 'Enter OTP',labelStyle: TextStyle(color: Colors.black)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            enterOtp();
+                          },
+                          child: Text('Verify'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 100,),
+                  SizedBox(height: 100,),
+                ],
+              ),
+            ),
+                    ),
+                  ),
+          ),
     );
   }
 
@@ -132,7 +168,7 @@ class _HomePageState extends State<HomePage> {
             context: context,
             builder: (context) => const SizedBox(
               height: 100,
-              child: Center(child: Text("Please Enter a Valid Number")),
+              child: Center(child: Text("Please Enter a Valid Number",style: TextStyle(fontSize: 18),)),
             ),
           );
         });
