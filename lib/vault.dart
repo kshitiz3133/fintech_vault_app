@@ -11,6 +11,7 @@ class VaultHome extends StatefulWidget {
 
 class _VaultHomeState extends State<VaultHome> {
   late Timer _timer;
+  bool a=true;
   int _secondsRemaining = 5 * 60; // 5 minutes in seconds
   int currentIconIndex = 0;
   List<String> bubbleIcons = [
@@ -30,6 +31,7 @@ class _VaultHomeState extends State<VaultHome> {
   void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
+        a=false;
         if (_secondsRemaining > 0) {
           _secondsRemaining--;
 
@@ -60,12 +62,8 @@ class _VaultHomeState extends State<VaultHome> {
       setState(() {
         _secondsRemaining = 5 * 60;
         currentIconIndex=0;
+        a=true;
       });
-    }
-  }
-  void pauseTimer(){
-    if (_timer != null) {
-      _timer.cancel();
     }
   }
 
@@ -86,12 +84,13 @@ class _VaultHomeState extends State<VaultHome> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Vault'),
+        leading: a?IconButton(onPressed: (){Navigator.pop(context);},icon: Icon(Icons.arrow_back),):SizedBox(),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(onPressed: (){startBubble();startTimer();}, child: Text("Activate")),
+            ElevatedButton(onPressed: (){startTimer();startBubble();}, child: Text("Activate")),
             Text(
               'Time Remaining:',
               style: TextStyle(fontSize: 20),
@@ -103,7 +102,6 @@ class _VaultHomeState extends State<VaultHome> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(onPressed: (){pauseTimer();}, child: Text("Pause")),
                 ElevatedButton(onPressed: (){stopTimer();}, child: Text("Deactivate")),
               ],
             ),

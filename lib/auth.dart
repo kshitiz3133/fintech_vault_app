@@ -104,28 +104,42 @@ class _HomePageState extends State<HomePage> {
     var url = Uri.parse('${BaseUrl.baseUrl}/auth/sendotp');
     var body = json.encode({"mobileNumber": "+91${_phoneController.text}"});
 
-    var response = await http.post(
-      url,
-      headers: {"Content-Type": "application/json"},
-      body: body,
-    );
+    try {
+      var response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
 
-    print('Response status: ${response.statusCode}');
-    setState(() {
-      a = false;
-    });
-    if (response.statusCode == 404) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) => const SizedBox(
-            height: 100,
-            child: Center(child: Text("OTP Sent!")),
-          ),
-        );
-      });
+      print('Response status: ${response.statusCode}');
+      if (response.body == "An OTP has been sent to your mobile number") {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => const SizedBox(
+              height: 100,
+              child: Center(child: Text("OTP Sent!")),
+            ),
+          );
+        });
+        setState(() {
+          a = false;
+        });
+        print('Error: ${response.body}');
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => const SizedBox(
+              height: 100,
+              child: Center(child: Text("Please Enter a Valid Number")),
+            ),
+          );
+        });
+      }
+    } catch (e) {
+      print("Error sending OTP: $e");
     }
-    print('Response body: ${response.body}');
   }
 
   Future<void> verify() async {
@@ -135,19 +149,32 @@ class _HomePageState extends State<HomePage> {
       "otp": "${_otpController.text}"
     });
 
-    var response = await http.post(
-      url,
-      headers: {"Content-Type": "application/json"},
-      body: body,
-    );
+    try {
+      var response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
 
-    print('Response status: ${response.statusCode}');
-    if (response.statusCode == 404) {
-      setState(() {
-        check=true;
-      });
+      print('Response status: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        setState(() {
+          check = true;
+        });
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => const SizedBox(
+              height: 100,
+              child: Center(child: Text("Enter Correct OTP")),
+            ),
+          );
+        });
+      }
+    } catch (e) {
+      print("Error verifying OTP: $e");
     }
-    print('Response body: ${response.body}');
   }
 
   Future<void> enterNumber() async {
